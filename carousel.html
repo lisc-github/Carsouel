@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="li-carousel.js"></script>
+    <style>
+        #li-carousel{
+            width:760px;
+            height:300px;
+            overflow:hidden;
+            position:relative;
+        }
+        #li-box{
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            width:400%;
+        }
+        .li-pic{
+            position:absolute;
+        }
+        .li-pic img{
+            width:100%;
+        }
+        .li-leftBtn{
+            left:0;
+        }
+        .li-rightBtn{
+            right:0;
+        }
+        .li-leftBtn,.li-rightBtn{
+            cursor:pointer;
+            height:100%;
+            width:50px;
+            text-align: center;
+            line-height: 300px;
+            z-index:9999;
+            position:absolute;
+            top:0;
+            font-size: 40px;
+        }
+        .li-leftBtn:hover,.li-rightBtn:hover{
+            background:rgba(0,0,0,0.6);
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+<div id="li-carousel">
+    <div id="li-box">
+        <div class="li-pic">
+            <img src="img/li-1.jpg">
+        </div>
+        <div class="li-pic">
+            <img src="img/li-2.jpg">
+        </div>
+        <div class="li-pic">
+            <img src="img/li-3.jpg">
+        </div>
+        <div class="li-pic">
+            <img src="img/li-4.jpg">
+        </div>
+    </div>
+    <div class="li-leftBtn">&lt;</div>
+    <div class="li-rightBtn">&gt;</div>
+</div>
+<script>
+    carousel();
+</script>
+</body>
+</html>
