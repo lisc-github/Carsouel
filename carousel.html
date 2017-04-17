@@ -10,6 +10,9 @@
             height:300px;
             overflow:hidden;
             position:relative;
+            -moz-user-select:none;
+            -webkit-user-select:none;
+            user-select:none;
         }
         #li-box{
             height:100%;
@@ -67,7 +70,7 @@
     <div class="li-rightBtn">&gt;</div>
 </div>
 <script>
-    carousel();
+    carousel("5000");
 </script>
 </body>
 </html>

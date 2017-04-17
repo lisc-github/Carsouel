@@ -1,13 +1,8 @@
-/**
- * Created by admin on 2017/4/14.
- */
 (function(window){
-    function Carousel(){
-
-    }
+    function Carousel(){}
     Carousel.prototype = {
-        init:function(){
-            this.container = document.getElementById("li-container");
+        init:function(auto){
+            this.container = document.getElementById("li-carousel");
             this.box = document.getElementById("li-box");
             this.box.style.left = 0;
             this.imgBox = this.getByClass("li-pic",this.box);
@@ -19,45 +14,73 @@
                 this.imgBox[i].style.width = this.width+"px";
                 this.imgBox[i].style.left = this.width*i+"px";
             }
-            this.eventBind();
+            this.eventBind(auto);
         },
-        eventBind:function(){
+        eventBind:function(auto){
             var _this = this;
             var len = this.len;
-
-            var j = 0;
-            var timer;
+            var flag = true;
+            var timer,timer2,timer3;
+            if(auto){
+                timer3 = setInterval(function(){
+                    move();
+                },auto);
+            }
             this.rightBtn.onclick = function(){
-                var i = 0;
-                var firstChild = _this.box.firstElementChild;
-                var lastChild = _this.box.lastElementChild;
-                _this.box.removeChild(firstChild);
-                _this.box.appendChild(firstChild);
-
-                timer = setInterval(function(){
-                    for(var k=0;k<_this.len;k++) {
-                        var l = parseInt(_this.imgBox[k].style.left);
-                        _this.imgBox[k].style.left = l - 1 + "px";
-                    }
-                    i = i+2;
-                    console.log(i,_this.width);
-                    console.log(i>=_this.width);
-                    if(i >= _this.width){
-                        clearInterval(timer);
-                        firstChild.style.left = parseInt(lastChild.style.left) + _this.width + "px";
-                    }
-                },1)
-
-
+                move();
             };
             this.leftBtn.onclick = function(){
-                var lastChild = _this.box.lastElementChild;
-                var firstChild = _this.box.firstElementChild;
-                _this.box.removeChild(lastChild);
-                _this.box.insertBefore(lastChild,_this.box.firstElementChild);
-                lastChild.style.left = parseInt(firstChild.style.left) - _this.width + "px";
-                _this.box.style.left = parseInt(_this.box.style.left) + _this.width + "px";
+                if(flag){
+                    var j = 1;
+                    var lastChild = _this.box.lastElementChild;
+                    var firstChild = _this.box.firstElementChild;
+                    _this.box.removeChild(lastChild);
+                    _this.box.insertBefore(lastChild,_this.box.firstElementChild);
+                    lastChild.style.left = parseInt(firstChild.style.left) - _this.width + "px";
+                    flag = !flag;
+                    timer2 = setInterval(function(){
+                        for(var k=0;k<_this.len;k++) {
+                            var l = parseInt(_this.imgBox[k].style.left);
+                            _this.imgBox[k].style.left = l + 2 + "px";
+                        }
+                        j=j+2;
+                        if(j >= _this.width){
+                            clearInterval(timer2);
+                            flag = !flag;
+                        }
+                    },1);
+                }
             };
+            _this.container.onmouseover = function(){
+                clearInterval(timer3);
+            };
+            _this.container.onmouseout = function(){
+                timer3 = setInterval(function(){
+                    move();
+                },auto);
+            };
+            function move(){
+                if(flag){
+                    var j = 1;
+                    var firstChild = _this.box.firstElementChild;
+                    var lastChild = _this.box.lastElementChild;
+                    _this.box.removeChild(firstChild);
+                    _this.box.appendChild(firstChild);
+                    flag = !flag;
+                    timer = setInterval(function(){
+                        for(var k=0;k<_this.len;k++) {
+                            var l = parseInt(_this.imgBox[k].style.left);
+                            _this.imgBox[k].style.left = l - 2 + "px";
+                        }
+                        j=j+2;
+                        if(j >= _this.width){
+                            clearInterval(timer);
+                            firstChild.style.left = parseInt(lastChild.style.left) + _this.width + "px";
+                            flag = !flag;
+                        }
+                    },1)
+                }
+            }
         },
         getByClass:function(classname,parentnode){
             var parent = document;
@@ -76,9 +99,8 @@
             return arr;
         }
     };
-
     var c = new Carousel();
-    window.carousel = function(){
-        c.init.call(c);
+    window.carousel = function(auto){
+        c.init.call(c,auto);
     }
 })(window);
